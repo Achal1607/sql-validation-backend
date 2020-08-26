@@ -12,18 +12,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/data', (req, res, next) => {
     const all = req.body.data.split(";"); //data field must be added to body
-        const parser = new Parser();
-        let result = [];
-        for (i = 0; i < all.length; i++) {
+    let result    
+    const parser = new Parser();
             try {
-                const ast = parser.astify(all[i]); // mysql sql grammer parsed by default
+                const ast = parser.astify(all[all.length-1]); // mysql sql grammer parsed by default
                 const sql = parser.sqlify(ast);
-                result.push({ message: true, sql: sql });
+                result={ message: true, sql: sql }
             }
             catch{
-                result.push({ message: false, sql: all[i] });
+                result={ message: false, sql: all[all.length-1] }
             }
-        }
+        console.log(result)
         res.send({ result: result });
 });
 
